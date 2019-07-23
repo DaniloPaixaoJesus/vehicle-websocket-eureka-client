@@ -26,7 +26,7 @@ public class VehicleWebSocketClient{
 	
     private static final String WEBSOCKET_SEND_TOPIC = "/app/updatestatus";
 	private static final String WEBSOCKET_USER_ID = "spring-restapi-client";
-	private static final String WEBSOCKET_ENDPOINT = "ws://ec2-35-174-0-145.compute-1.amazonaws.com:8085/livestatus-websocket";
+	private static final String WEBSOCKET_ENDPOINT = "ws://localhost:8085/livestatus-websocket";
 
 
 	static public class VehicleStompSessionHandler extends StompSessionHandlerAdapter {
