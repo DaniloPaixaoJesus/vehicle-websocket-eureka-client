@@ -8,7 +8,7 @@ $(document).ready(function(){
 	if(stompClient!=null)
 		stompClient.disconnect();
 
-	 var socket = new SockJS('http://localhost:8085/livestatus-websocket');
+	 var socket = new SockJS('http://ec2-35-174-0-145.compute-1.amazonaws.com:8085/livestatus-websocket');
 	 stompClient = Stomp.over(socket);
 	 
 	 stompClient.connect({}, function (frame) {
