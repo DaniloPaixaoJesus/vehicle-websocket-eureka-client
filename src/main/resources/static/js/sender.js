@@ -1,43 +1,38 @@
 
 var stompClient = null;
+var maximum = 2;
+var minimum = 0;
+var index = 0;
+var vins = ['YS2R4X20005399401', 'VLUR4X20009048066', 'YS2R4X20005388011'];
 
 $(document).ready(function(){
-//	if(stompClient!=null)
-//		stompClient.disconnect();
-//
-//	 var socket = new SockJS('http://ec2-35-174-0-145.compute-1.amazonaws.com:8085/livestatus-websocket');
-//	 stompClient = Stomp.over(socket);
 
-	$("#start-random").click(function(){
-		if(document.getElementById('start-random').innerHTML == 'Stop Random'){
-			document.getElementById('start-random').innerHTML = 'Start Random';	
-			$('#start-random').removeClass("btn-warning"); 
-			$('#start-random').addClass("btn-primary");
-			
-		}else{
-			document.getElementById('start-random').innerHTML = 'Stop Random';
+    $("button").click(function(){
+    	if(this.id == 'start-random'){
+			document.getElementById('start-random').innerHTML = 'Sending ...';
 			$('#start-random').removeClass("btn-primary"); 
 			$('#start-random').addClass("btn-warning");
-		}
-	});
-    $("btn-info").click(function(){
-    	vin = this.value;
-    	document.getElementById(vin).innerHTML = 'sending ...';
-    	sendPingOn(vin);
-    	this.value = vin;
-    	
+    		for(let i = 0; i <= 100; i++){
+    			
+	    		setTimeout(function () {
+	    			index = Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+	    			sendPingOn(vins[index]);
+	    		}, 5000);
+    		}
+    	}else{
+    		vin = this.value;
+        	document.getElementById(vin).innerHTML = 'sending ...';
+        	sendPingOn(vin);
+        	this.value = vin;
+    	}
     });
 });
 
-function sendData2Socket(vin) {
-	stompClient.send("/app/updatestatus", {}, JSON.stringify({'vin': vin, 'status': 'ON'}));
-
-}
 
 function sendPingOn(vin){
-
+	console.log('sending.. vin '+ vin);
     var xhr = new XMLHttpRequest();
-        xhr.open('PUT', 'http://localhost:8080/vehicle-track-service/api/v1/vehicle-track/'+vin);
+        xhr.open('PUT', 'http://swedish-challenge.danilopaixao.com.br:8080/vehicle-track-service/api/v1/vehicle-track/'+vin);
         xhr.onload = function() {
             document.getElementById(vin).innerHTML = vin;
         };
