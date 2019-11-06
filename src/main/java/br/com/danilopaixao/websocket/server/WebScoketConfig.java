@@ -20,9 +20,6 @@ public class WebScoketConfig implements WebSocketMessageBrokerConfigurer {
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-//		registry.addEndpoint("/livestatus-websocket");
-//		registry.addEndpoint("/livestatus-websocket").withSockJS();
-		
 		registry.addEndpoint("/livestatus-websocket")
 			.setHandshakeHandler(new DefaultHandshakeHandler(new TomcatRequestUpgradeStrategy()))
 			.setAllowedOrigins("*")

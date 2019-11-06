@@ -49,13 +49,6 @@ public class VehicleWebSocketClient{
 		    }
 		}
 
-//		private void sendJsonMessage(StompSession session){
-//		    VehicleTrack msg = new VehicleTrack("TESTEEEEEE", "TESTE", "TESTE", "TESTE");
-//		    synchronized(session) {
-//		    	session.send(WEBSOCKET_SEND_TOPIC, msg);
-//			}
-//		}
-
 		private void subscribeTopic(String topic,StompSession session){
 		    session.subscribe(topic, new StompFrameHandler() {
 	
@@ -74,25 +67,14 @@ public class VehicleWebSocketClient{
 		}
 
 		@Override
-		public void afterConnected(StompSession session,
-					   StompHeaders connectedHeaders)
-		{
+		public void afterConnected(StompSession session, StompHeaders connectedHeaders){
 		    System.err.println("Connected! Headers:");
 		    showHeaders(connectedHeaders);
-	
 		    subscribeTopic(SUBSCRIBE_TOPIC, session);
-		    //sendJsonMessage(session);
 		}
     }
     
 
-//    public static void main(String[] args) throws Exception {
-//    	ObjectMapper jsonMapper = new ObjectMapper();
-//    	String json = jsonMapper.writeValueAsString(new VehicleTrack("adasdasdasdasdTESTE", "TESTE", "TESTE", "TESTE"));
-//    	System.out.println(json);
-//		send(new VehicleTrack("adasdasdasdasdTESTE", "TESTE", "TESTE", "TESTE"));
-//	}
-    
     public void send(VehicleTrackWSocket msg) throws Exception
 	{
 		WebSocketClient simpleWebSocketClient = new StandardWebSocketClient();
@@ -104,7 +86,6 @@ public class VehicleWebSocketClient{
 		stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
 		String url = WEBSOCKET_ENDPOINT;
-		//String userId = "spring-" + ThreadLocalRandom.current().nextInt(1, 99);
 		String userId = WEBSOCKET_USER_ID;
 		StompSessionHandler sessionHandler = new VehicleStompSessionHandler(userId);
 		StompSession session = stompClient.connect(url, sessionHandler).get();
