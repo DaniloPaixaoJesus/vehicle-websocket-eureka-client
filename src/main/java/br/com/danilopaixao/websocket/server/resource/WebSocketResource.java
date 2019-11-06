@@ -1,10 +1,13 @@
 package br.com.danilopaixao.websocket.server.resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,26 +15,40 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import br.com.danilopaixao.websocket.server.VehicleWebSocketClient;
+import br.com.danilopaixao.websocket.server.enums.StatusEnum;
 import br.com.danilopaixao.websocket.server.model.VehicleTrackWSocket;
 
 @RestController
 @RequestMapping("api/v1/vehicle")
 public class WebSocketResource {
 	
+	private static final Logger logger = LoggerFactory.getLogger(WebSocketResource.class);
+	
 	@Autowired
 	VehicleWebSocketClient vehicleWebSocketClient;
 	
+	public static void main(String[] args) throws Exception {
+		VehicleTrackWSocket v = new VehicleTrackWSocket("YS5664X28413B87949", "ON");
+		ObjectMapper mapper = new ObjectMapper();
+		System.out.println(mapper.writeValueAsString(v));
+	}
 	
 	@MessageMapping("/updatestatus")
 	@SendTo("/topic/status")
-	public VehicleTrackWSocket getVehicleStatus(VehicleTrackWSocket vehicleTrack) throws InterruptedException {
+	public VehicleTrackWSocket sendToTopicStatus(VehicleTrackWSocket vehicleTrack) throws InterruptedException {
+		logger.info("##WebSocketResource#sendToTopicStatus {}", vehicleTrack);
 		return vehicleTrack;
 	}
 	
 	@PutMapping(value = "/{vin}/status", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseStatus(HttpStatus.ACCEPTED)
-	public @ResponseBody VehicleTrackWSocket updateStatusWebSocket(@RequestBody(required=true) VehicleTrackWSocket vehicleTrack) throws Throwable {
+	public @ResponseBody VehicleTrackWSocket updateStatusWebSocket(@RequestBody(required = true) VehicleTrackWSocket vehicleTrack, 
+														@PathVariable("vin") final String vin) throws Throwable {
+		logger.info("##WebSocketResource#updateStatusWebSocket - update client devices {}, {}", vin, vehicleTrack);
 		vehicleWebSocketClient.send(vehicleTrack);
 		return vehicleTrack;
 	}

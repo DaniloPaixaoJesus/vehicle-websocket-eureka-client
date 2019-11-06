@@ -32,7 +32,7 @@ $(document).ready(function(){
 function sendPingOn(vin){
 	console.log('sending.. vin '+ vin);
     var xhr = new XMLHttpRequest();
-        xhr.open('PUT', 'http://localhost:8080/vehicle-track-service/api/v1/vehicle-track/'+vin);
+        xhr.open('PUT', 'http://localhost:8085/api/v1/vehicle/'+vin+'/status');
         xhr.onload = function() {
             document.getElementById(vin).innerHTML = vin;
         };
