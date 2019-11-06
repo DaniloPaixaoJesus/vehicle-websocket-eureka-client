@@ -1,0 +1,21 @@
+version: '2'
+services:
+    websocket-server:
+        container_name: websocket-server
+        build:
+            dockerfile: ./websocket.dockerfile
+            context: .
+        environment:
+            - EUREKA_SERVER=eureka-server
+            - EUREKA_PORT=8761
+            - ENABLED_EUREKA=true
+            - VEHICLE_SERVICE_URL=http://vehicle-service/v1/
+            - DRIVER_SERVICE_URL=http://driver-service/v1/
+            - WEBSOCKET_URL=ws://vehicle-websocket:8085/livestatus-websocket
+        ports:
+            - 8080:8085
+        networks:
+            - microservice-network
+networks: 
+    microservice-network:
+        driver: bridge

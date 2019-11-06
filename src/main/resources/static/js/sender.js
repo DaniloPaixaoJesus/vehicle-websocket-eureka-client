@@ -28,14 +28,31 @@ $(document).ready(function(){
     });
 });
 
-
 function sendPingOn(vin){
+	
 	console.log('sending.. vin '+ vin);
+	var VehicleTrackWSocket = {};
+    VehicleTrackWSocket.vin = vin;
+    VehicleTrackWSocket.status  = 'ON';
+    console.log(VehicleTrackWSocket);
+    
+//	const url = 'http://localhost:8085/api/v1/vehicle/'+vin+'/status';
+//	fetch(url, {
+//	    method : "PUT",
+//	    body: VehicleTrackWSocket,
+//	}).then(
+//	    response => response.text()
+//	).then(
+//	    html => console.log(html)
+//	);
+	
     var xhr = new XMLHttpRequest();
         xhr.open('PUT', 'http://localhost:8085/api/v1/vehicle/'+vin+'/status');
+        xhr.setRequestHeader('Content-type','application/json; charset=utf-8');
+        var json = JSON.stringify(VehicleTrackWSocket);
         xhr.onload = function() {
             document.getElementById(vin).innerHTML = vin;
         };
-        xhr.send();
+        xhr.send(json);
     
 }

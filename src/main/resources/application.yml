@@ -5,7 +5,7 @@ server:
   port: 8085
 eureka:
   client:
-    enabled: false
+    enabled: ${EUREKA_ENABLE:false}
     serviceUrl:
       defaultZone: http://${EUREKA_SERVER:localhost}:${EUREKA_PORT:8761}/eureka/
 br:
@@ -15,6 +15,6 @@ br:
         url: ${WEBSOCKET_URL:ws://localhost:8085/livestatus-websocket}
       service:
         vehicle:
-          url: http://vehicle-service/api/v1
+          url: ${VEHICLE_SERVICE_URL:http://localhost:8083/api/v1}
         driver:
-          url: http://driver-service/api/v1
+          url: ${DRIVER_SERVICE_URL:http://localhost:8082/api/v1}
