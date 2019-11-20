@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import br.com.danilopaixao.websocket.server.VehicleWebSocketClient;
 import br.com.danilopaixao.websocket.server.model.VehicleTrackWSocket;
 
@@ -28,12 +26,6 @@ public class WebSocketResource {
 	
 	@Autowired
 	VehicleWebSocketClient vehicleWebSocketClient;
-	
-	public static void main(String[] args) throws Exception {
-		VehicleTrackWSocket v = new VehicleTrackWSocket("YS5664X28413B87949", "ON");
-		ObjectMapper mapper = new ObjectMapper();
-		System.out.println(mapper.writeValueAsString(v));
-	}
 	
 	@MessageMapping("/updatestatus")
 	@SendTo("/topic/status")
