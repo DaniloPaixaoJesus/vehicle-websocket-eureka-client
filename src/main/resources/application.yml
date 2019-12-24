@@ -2,7 +2,7 @@ spring:
   application:
     name: vehicle-websocket
 server:
-  port: 8085
+  port: ${SERVER_PORT:8085}
 eureka:
   client:
     enabled: ${EUREKA_ENABLE:false}
@@ -13,6 +13,10 @@ br:
     danilopaixao:
       websocket:
         url: ${WEBSOCKET_URL:ws://localhost:8085/livestatus-websocket}
+        user: ${WEBSOCKET_USER_ID:spring-restapi-client}
+        topic:
+           send: /app/updatestatus
+           subscribe: /topic/status
       service:
         vehicle:
           url: ${VEHICLE_SERVICE_URL:http://localhost:8083/api/v1}

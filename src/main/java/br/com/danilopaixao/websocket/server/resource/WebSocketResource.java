@@ -38,7 +38,7 @@ public class WebSocketResource {
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public @ResponseBody VehicleTrackWSocket updateStatusWebSocket(@RequestBody(required = true) VehicleTrackWSocket vehicleTrack, 
 														@PathVariable("vin") final String vin) throws Throwable {
-		logger.info("##WebSocketResource#updateStatusWebSocket - update client devices {}, {}", vin, vehicleTrack);
+		logger.info("##WebSocketResource#updateStatusWebSocket {}, {}", vin, vehicleTrack);
 		vehicleWebSocketClient.send(vehicleTrack);
 		return vehicleTrack;
 	}

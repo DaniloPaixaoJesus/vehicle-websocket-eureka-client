@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
 import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
@@ -24,15 +25,20 @@ import br.com.danilopaixao.websocket.server.model.VehicleTrackWSocket;
 @Component
 public class VehicleWebSocketClient{
 	
-    private static final String WEBSOCKET_SEND_TOPIC = "/app/updatestatus";
-	private static final String WEBSOCKET_USER_ID = "spring-restapi-client";
-	private static final String WEBSOCKET_ENDPOINT = "ws://localhost:8085/livestatus-websocket";
-
+    @Value("${br.com.danilopaixao.websocket.topic.send}")
+	private String WEBSOCKET_SEND_TOPIC;
+    
+    @Value("${br.com.danilopaixao.websocket.topic.subscribe:/topic/status}")
+	private static String WEBSOCKET_SUBSCRIBE_TOPIC;
+    
+    @Value("${br.com.danilopaixao.websocket.user}")
+	private String WEBSOCKET_USER_ID;
+    
+    @Value("${br.com.danilopaixao.websocket.url}")
+	private String WEBSOCKET_ENDPOINT;
 
 	static public class VehicleStompSessionHandler extends StompSessionHandlerAdapter {
 		
-    	private static final String SUBSCRIBE_TOPIC = "/topic/status";
-
 		public VehicleStompSessionHandler(String userId){
 		}
 
@@ -70,7 +76,7 @@ public class VehicleWebSocketClient{
 		public void afterConnected(StompSession session, StompHeaders connectedHeaders){
 		    System.err.println("Connected! Headers:");
 		    showHeaders(connectedHeaders);
-		    subscribeTopic(SUBSCRIBE_TOPIC, session);
+		    subscribeTopic(WEBSOCKET_SUBSCRIBE_TOPIC, session);
 		}
     }
     

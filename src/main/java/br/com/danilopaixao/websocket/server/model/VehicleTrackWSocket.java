@@ -11,6 +11,7 @@ public class VehicleTrackWSocket implements Serializable{
 	
 	private String vin;
 	private String status;
+	private Location geolocation;
 
 	public VehicleTrackWSocket() {
 	}
@@ -36,11 +37,20 @@ public class VehicleTrackWSocket implements Serializable{
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	public Location getGeolocation() {
+		return geolocation;
+	}
+
+	public void setGeolocation(Location geolocation) {
+		this.geolocation = geolocation;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((geolocation == null) ? 0 : geolocation.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((vin == null) ? 0 : vin.hashCode());
 		return result;
@@ -55,6 +65,11 @@ public class VehicleTrackWSocket implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		VehicleTrackWSocket other = (VehicleTrackWSocket) obj;
+		if (geolocation == null) {
+			if (other.geolocation != null)
+				return false;
+		} else if (!geolocation.equals(other.geolocation))
+			return false;
 		if (status == null) {
 			if (other.status != null)
 				return false;
@@ -70,7 +85,9 @@ public class VehicleTrackWSocket implements Serializable{
 
 	@Override
 	public String toString() {
-		return "VehicleTrackWSocket [vin=" + vin + ", status=" + status + "]";
+		return "VehicleTrackWSocket [vin=" + vin + ", status=" + status + ", geolocation=" + geolocation + "]";
 	}
+
+	
 
 }
